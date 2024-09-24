@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">TODO</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="{% url 'index' %}">Home</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'Todo' %}">Tasks</a>
+          <a class="nav-link" href="{% url 'Form' %}">Form</a>
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <a href="{% url 'Form' %}" class="btn btn-primary btn-lg">+ Add Task</a>
+        </div>
+        
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for todo in todos%}
+                <tr>
+                    <td>{{todo.id}}</td>e
+                    <td>{{todo.task}}</td>
+                    <td>{{todo.description}}</td>
+                    <td>{{todo.status}}</td>
+                    <td>
+                        <a href="{% url 'Edit' pk=todo.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <button class="btn btn-danger btn-sm" onclick="Delet()"> Delete </button>
+                        {% comment %} <a href="{% url 'Delete' pk=todo.id %}" class="btn btn-danger btn-sm">Delete</a> {% endcomment %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="text-end">
+            <button class="btn btn-danger btn-lg" onclick="confirmDeleteAllData()">Delete All</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+<script>
+    
+
+     function confirmDeleteAllData() {
+    // Create a confirmation dialog
+    const userConfirmation = confirm("Are you sure you want to delete all data?");
+
+    // Check if the user clicked "Yes"
+    if (userConfirmation) {
+        // Make a URL request to delete all data
+        fetch('/Delete_All', { 
+            method: 'GET' // Use appropriate HTTP method
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("All data deleted successfully.");
+                window.location.reload();
+            } else {
+                alert("Failed to delete data.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred while deleting data.");
+        });
+    }
+}
+</script>
+</html>
