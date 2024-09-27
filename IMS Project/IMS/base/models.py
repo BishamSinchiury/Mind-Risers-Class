@@ -1,7 +1,6 @@
 from django.db import models #type: ignore
-from django.contrib.auth.models import AbstractUser  #type: ignore
+from django.contrib.auth.models import AbstractUser #type: ignore
 
-# Create your models here.
 class User(AbstractUser):
     full_name = models.CharField(max_length=300)
     email = models.EmailField(unique=True)
@@ -9,8 +8,8 @@ class User(AbstractUser):
     image = models.ImageField()
     phone_number = models.IntegerField()
 
-    USERNAME_FIELD ='email'
-    REQUIRED_FIELDS: list= []
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS : list = []
 
 class ProductType(models.Model):
     name = models.CharField(max_length=300)
@@ -18,33 +17,31 @@ class ProductType(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=300)
     quantity = models.IntegerField()
-    department = models.ManyToManyField("Department")
-    type = models.ForeignKey(ProductType, on_delete=models.SET_NULL, null=True)
-
+    department = models.ManyToManyField("Department") 
+    type = models.ForeignKey(ProductType, on_delete=models.CASCADE, null=True)
 
 class Purchase(models.Model):
-    Product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-    Quantity = models.IntegerField()
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    quantity =models.FloatField(null=True)
     price = models.FloatField()
-    Vendor = models.ForeignKey("Vendor", on_delete=models.SET_NULL, null=True)
+    vendor = models.ForeignKey("Vendor", on_delete=models.SET_NULL, null=True)
 
 class Department(models.Model):
     name = models.CharField(max_length=300)
     floor = models.CharField(max_length=300)
 
 class Vendor(models.Model):
-    name = models.CharField(max_length=300)
+    name  = models.CharField(max_length=300)
     phone_number = models.IntegerField()
-    email = models.EmailField(unique=True)
+    email =  models.EmailField(unique=True)
 
 class Sales(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField()
     price = models.FloatField()
-    customer =  models.ForeignKey("Customer", on_delete=models.SET_NULL, null=True)
-
+    customer = models.ForeignKey("Customer", on_delete=models.SET_NULL, null=True)
 
 class Customer(models.Model):
     name = models.CharField(max_length=300)
-    number =  models.IntegerField()
-    email = models.EmailField(unique=True)
+    number = models.IntegerField()
+    email = models.EmailField()

@@ -20,5 +20,6 @@ from base import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('product-type/', views.ProductTypeViewSet.as_view({'get':'list', 'post':'create'}))
+    path('product-type/', views.ProductTypeApiView.as_view({'get':'list', 'post':'create'})),
+
 ]
