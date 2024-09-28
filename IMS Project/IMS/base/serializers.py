@@ -6,3 +6,7 @@ class ProductTypeSerializer(ModelSerializer):
         model = models.ProductType
         feilds = "__all__"
 
+class ProductSerializer(ModelSerializer):
+    class Meta:
+        model = models.Product
+        fields = "__all__"

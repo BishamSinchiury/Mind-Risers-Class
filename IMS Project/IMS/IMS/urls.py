@@ -21,5 +21,9 @@ from base import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product-type/', views.ProductTypeApiView.as_view({'get':'list', 'post':'create'})),
+    path('product-type/<int:pk>/',views.ProductTypeApiView.as_view({'get':'retrive','put':'update','delete':'destroy'})),
+    path('product/', views.ProductApiView.as_view()),
+    path('product/<int:pk>/', views.ProductDetailApiView.as_view())
+
 
 ]
